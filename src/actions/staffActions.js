@@ -9,9 +9,7 @@ const DATA_URL = 'https://api.tretton37.com/ninjas';
 
 export const getTretton37Staff = () => async (dispatch) => {
   try {
-    dispatch({
-      type: STAFF_LIST_REQUEST,
-    });
+    dispatch({ type: STAFF_LIST_REQUEST });
 
     const { data } = await axios.get(DATA_URL);
 

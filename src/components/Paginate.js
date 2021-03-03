@@ -1,120 +1,81 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { CgChevronRight, CgChevronLeft } from 'react-icons/cg';
-/**
- * Helps control the changing of pages
- *
- * -Must be provided with the number of pages available ( numberOfPages={number} )
- * -Must be provided with an external function that changes the current page
- * ( changePage={functionThatReceivesNumber} )
- */
 
-const PageControl = ({ noOfPages, changePage }) => {
-  const navigationButtonSize = 30;
-  const [numberOfPages, setNumberOfPages] = useState(noOfPages);
-  const [currentPage, setCurrentPage] = useState(1);
+import { splitArrBy } from '../helpers/object';
 
-  useEffect(() => {
-    setNumberOfPages(
-      noOfPages === 0 ? 1 : noOfPages === undefined ? 1 : noOfPages
+const PageControl = React.forwardRef(
+  ({ data, paginateBy = 10, onPageChange }, ref) => {
+    const navigationButtonSize = 30;
+    const [currentPage, setCurrentPage] = useState(0);
+    const [paginatedStaff, setPaginatedStaff] = useState([[]]);
+
+    const isNextVisible = useMemo(
+      () => currentPage < paginatedStaff.length - 1,
+      [currentPage, paginatedStaff]
     );
-    setCurrentPage(1);
-  }, [noOfPages]);
+    const isPrevVisible = useMemo(() => currentPage > 0, [currentPage]);
 
-  const goToNewPage = (nextOrPrev) => {
-    let newPageToGoTo;
-    if (nextOrPrev === 'next') {
-      if (currentPage === numberOfPages) {
-        return;
-      } else {
-        newPageToGoTo = currentPage + 1;
+    useEffect(() => void setPaginatedStaff(splitArrBy(data, paginateBy)), [
+      data,
+      paginateBy,
+    ]);
+    useEffect(() => {
+      if (paginatedStaff.length) {
+        onPageChange(paginatedStaff[currentPage]);
       }
-    }
+    }, [currentPage, paginatedStaff, onPageChange]);
 
-    if (nextOrPrev === 'prev') {
-      if (currentPage === 1) {
-        return;
-      } else {
-        newPageToGoTo = currentPage - 1;
-      }
-    }
+    const onPaginationChange = useCallback(
+      (clickedButton) => {
+        const isNextClicked = clickedButton === 'next';
+        const stepValue = isNextClicked ? 1 : -1;
+        const newPage = currentPage + stepValue;
 
-    if (changePage) {
-      changePage(newPageToGoTo);
-    }
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-    setCurrentPage(newPageToGoTo);
-  };
+        if (paginatedStaff[newPage]) {
+          setCurrentPage(newPage);
+        }
 
-  return (
-    <div className='pag-ctrl-wrapper'>
-      <div className={`pag-ctrl-container`}>
-        {/* Prev Button */}
-        <span className={`pag-ctrl-prev-btn pag-ctrl-btn `}>
-          <div
-            onclick={() => {
-              goToNewPage('prev');
-            }}
-          >
-            <CgChevronLeft
-              //   color={colors.actionRed}
-              size={navigationButtonSize}
-            />
-          </div>
-        </span>
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+      [currentPage, paginatedStaff]
+    );
 
-        {/* Previous page */}
-        {currentPage > 1 ? (
-          <span
-            className='pag-ctrl-prev-page pag-ctrl-pg-no'
-            onClick={() => {
-              goToNewPage('prev');
-            }}
-          >
-            {currentPage > 1 ? currentPage - 1 : ''}
+    return (
+      <div className='pag-ctrl-wrapper'>
+        <div className={`pag-ctrl-container`} style={{ userSelect: 'none' }}>
+          {/* Previous page */}
+          {isPrevVisible && (
+            <span className={`pag-ctrl-prev-btn pag-ctrl-btn `}>
+              <div onClick={onPaginationChange.bind(null, 'prev')}>
+                <CgChevronLeft size={navigationButtonSize} />
+              </div>
+            </span>
+          )}
+
+          {/* Current Page */}
+          <span className={`pag-ctrl-current-page pag-ctrl-pg-no `}>
+            {currentPage + 1} / {paginatedStaff.length}
           </span>
-        ) : (
-          ''
-        )}
 
-        {/* Current Page */}
-        <span className={`pag-ctrl-current-page pag-ctrl-pg-no `}>
-          {currentPage}
-        </span>
-
-        {/* Next page */}
-        {currentPage !== numberOfPages ? (
-          <span
-            className='pag-ctrl-next-page pag-ctrl-pg-no'
-            onClick={() => {
-              goToNewPage('next');
-            }}
-          >
-            {currentPage + 1}
-          </span>
-        ) : (
-          ''
-        )}
-
-        {/* Next Button */}
-
-        <span className={`pag-ctrl-next-btn pag-ctrl-btn `}>
-          <div
-            onClick={() => {
-              goToNewPage('next');
-            }}
-          >
-            <CgChevronRight
-              //   color={colors.actionRed}
-              size={navigationButtonSize}
-            />
-          </div>
-        </span>
+          {/* Next page */}
+          {isNextVisible && (
+            <span
+              className={`pag-ctrl-next-btn pag-ctrl-btn `}
+              onClick={onPaginationChange.bind(null, 'next')}
+            >
+              <CgChevronRight size={navigationButtonSize} />
+            </span>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+);
+PageControl.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  paginateBy: PropTypes.number,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default PageControl;

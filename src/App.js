@@ -3,67 +3,38 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getTretton37Staff } from './actions/staffActions';
 
-import Paginate from './components/Paginate';
+import PageControl from './components/Paginate';
 import ProfileCard from './components/ProfileCard';
 import StaffFilters from './components/StaffFilters';
 import SearchStaff from './components/SearchStaff';
-
-import paginate from './reducers/utils';
 
 import './css/main.scss';
 
 const App = () => {
   const dispatch = useDispatch();
 
-  const returnedStaff = useSelector((state) => state.staffList.staff);
-  const pagination = useSelector((state) => state.staffList.paginateItems);
+  const ninjas = useSelector((state) => state.staffList.staff);
+  const loading = useSelector((state) => state.staffList.loading);
 
   // Current staff
-  const [staff, setStaff] = useState([]);
-  const [paginatedStaff, setPaginatedStaff] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Function to change page
-  const changePage = (newPage) => {
-    const pgIndex = newPage - 1;
-    setStaff(setPaginatedStaff[pgIndex]);
-  };
-
-  const handleFilter = (e) => {
-    const filteredStaff = returnedStaff.filter(
-      (s) => s.office === e.target.value
-    );
-
-    setStaff(filteredStaff);
-  };
+  const [staff, setStaff] = useState(ninjas);
 
   const handleSearch = (e) => {
     const name = e.target.value;
 
     if (!!name) {
-      setStaff(returnedStaff);
+      setStaff(ninjas);
     }
-    const names = returnedStaff.map((s) => s.name);
+    const names = ninjas.map((s) => s.name);
 
     return names.includes(name)
-      ? setStaff(returnedStaff?.filter((s) => s.name === name))
+      ? setStaff(ninjas?.filter((s) => s.name === name))
       : 'No match was found';
-  };
-
-  const handlePaginate = (staffList) => {
-    // Paginate?
-    const orderedInPages = paginate(staffList, pagination);
-    setPaginatedStaff(orderedInPages);
-    setStaff(orderedInPages[0]);
   };
 
   useEffect(() => {
     dispatch(getTretton37Staff());
   }, [dispatch]);
-
-  useEffect(() => {
-    handlePaginate(returnedStaff);
-  }, [returnedStaff]);
 
   return (
     <div className='container'>
@@ -73,21 +44,21 @@ const App = () => {
         </header>
       </div>
       <div className='filters'>
-        <StaffFilters onChange={handleFilter} />
+        {/* <StaffFilters onChange={handleFilter} /> */}
         <SearchStaff onSearch={handleSearch} />
       </div>
-      <div className='main-section'>
-        {staff?.map((s) => {
-          return <ProfileCard staff={s} />;
-        })}
-      </div>
-      <div>
-        <Paginate
-          noOfPages={paginatedStaff.length}
-          currentPage={currentPage}
-          changePage={changePage}
-        />
-      </div>
+      {loading ? (
+        'Loading...'
+      ) : (
+        <>
+          <div className='main-section'>
+            {staff.map((s) => (
+              <ProfileCard staff={s} key={Math.random()} />
+            ))}
+          </div>
+          <PageControl data={ninjas} onPageChange={setStaff} />
+        </>
+      )}
     </div>
   );
 };

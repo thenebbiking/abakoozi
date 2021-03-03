@@ -174,14 +174,16 @@ body {
         margin: auto;
       }
       display: flex;
-      flex: 1;
-      justify-content: space-between;
       flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
 
       .card {
+        position: relative;
         display: flex;
         flex-direction: column;
         border-radius: 6px;
+        margin: 10px;
         padding: 0.7rem;
         background-color: var(--profile-card-color);
         width: 300px;
@@ -191,10 +193,9 @@ body {
 
         .profile-image {
           height: 75%;
-          // border: 1px solid grey;
           border-radius: 6px;
           background-color: #fff;
-          // background-color: var(--secondary-color);
+          cursor: pointer;
 
           .svg {
             width: 40px !important;
@@ -219,9 +220,15 @@ body {
         }
 
         .profile-details {
+          position: absolute;
           display: flex;
+          flex: 1 1;
           justify-content: space-between;
-          flex: 1;
+          padding: 0.7rem;
+          /* Width is 100% - double the padding from sides */
+          width: calc(100% - 1.4rem);
+          bottom: 0;
+          left: 0;
 
           span {
             margin-right: 5px;
@@ -242,6 +249,17 @@ body {
           span:last-child {
             margin-right: 0;
           }
+        }
+
+        .profile-desc {
+          cursor: pointer;
+
+          overflow: auto;
+          padding: 1rem;
+          margin-bottom: 4rem;
+          text-transform: uppercase;
+          text-align: justify;
+          text-justify: inter-word;
         }
       }
     }
