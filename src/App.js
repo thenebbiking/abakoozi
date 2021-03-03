@@ -1,19 +1,69 @@
-import './css/main.scss';
 import { useState, useEffect } from 'react';
-import { FaLinkedin, FaTwitterSquare, FaGithubSquare } from 'react-icons/fa';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getTretton37Staff } from './actions/staffActions';
+
+import Paginate from './components/Paginate';
+import ProfileCard from './components/ProfileCard';
+import StaffFilters from './components/StaffFilters';
+import SearchStaff from './components/SearchStaff';
+
+import paginate from './reducers/utils';
+
+import './css/main.scss';
 
 const App = () => {
   const dispatch = useDispatch();
 
   const returnedStaff = useSelector((state) => state.staffList.staff);
+  const pagination = useSelector((state) => state.staffList.paginateItems);
+
+  // Current staff
+  const [staff, setStaff] = useState([]);
+  const [paginatedStaff, setPaginatedStaff] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Function to change page
+  const changePage = (newPage) => {
+    const pgIndex = newPage - 1;
+    setStaff(setPaginatedStaff[pgIndex]);
+  };
+
+  const handleFilter = (e) => {
+    const filteredStaff = returnedStaff.filter(
+      (s) => s.office === e.target.value
+    );
+
+    setStaff(filteredStaff);
+  };
+
+  const handleSearch = (e) => {
+    const name = e.target.value;
+
+    if (!!name) {
+      setStaff(returnedStaff);
+    }
+    const names = returnedStaff.map((s) => s.name);
+
+    return names.includes(name)
+      ? setStaff(returnedStaff?.filter((s) => s.name === name))
+      : 'No match was found';
+  };
+
+  const handlePaginate = (staffList) => {
+    // Paginate?
+    const orderedInPages = paginate(staffList, pagination);
+    setPaginatedStaff(orderedInPages);
+    setStaff(orderedInPages[0]);
+  };
 
   useEffect(() => {
     dispatch(getTretton37Staff());
   }, [dispatch]);
+
+  useEffect(() => {
+    handlePaginate(returnedStaff);
+  }, [returnedStaff]);
 
   return (
     <div className='container'>
@@ -22,39 +72,21 @@ const App = () => {
           <p>_the fellowship of the tretton37</p>
         </header>
       </div>
-      <div className='filters'>Potential filter and tools area</div>
+      <div className='filters'>
+        <StaffFilters onChange={handleFilter} />
+        <SearchStaff onSearch={handleSearch} />
+      </div>
       <div className='main-section'>
-        {returnedStaff?.map((staff) => {
-          return (
-            <div className='card'>
-              <div className='profile-image'>
-                <img src={staff.imagePortraitUrl} alt={staff.name} />
-              </div>
-              <div className='profile-details'>
-                <div style={{ alignSelf: 'center' }}>
-                  <div className='profile-user-name'>{staff.name}</div>
-                  <div className='profile-user-office'>{staff.office}</div>
-                </div>
-
-                <div style={{ alignSelf: 'center' }}>
-                  <span>
-                    <FaLinkedin size={20} />
-                  </span>
-                  <span>
-                    <FaGithubSquare />
-                  </span>
-                  <span>
-                    <FaTwitterSquare />
-                  </span>
-                </div>
-              </div>
-            </div>
-          );
+        {staff?.map((s) => {
+          return <ProfileCard staff={s} />;
         })}
-        {/* 
-
-        
-        */}
+      </div>
+      <div>
+        <Paginate
+          noOfPages={paginatedStaff.length}
+          currentPage={currentPage}
+          changePage={changePage}
+        />
       </div>
     </div>
   );

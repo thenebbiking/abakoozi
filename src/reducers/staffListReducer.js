@@ -4,18 +4,26 @@ import {
   STAFF_LIST_REQUEST_FAIL,
 } from '../constants/staffConstants';
 
-export const staffListReducer = (state = { staff: [] }, action) => {
+const initialState = {
+  staff: [],
+  loading: false,
+  paginateItems: 8,
+};
+
+export const staffListReducer = (state = initialState, action) => {
   switch (action.type) {
     case STAFF_LIST_REQUEST:
-      return { loading: true, staff: [] };
+      return { ...state, loading: true };
     case STAFF_LIST_REQUEST_SUCCESS:
       return {
+        ...state,
         loading: false,
         staff: action.payload,
       };
 
     case STAFF_LIST_REQUEST_FAIL:
       return {
+        ...state,
         loading: false,
         error: action.payload,
       };
