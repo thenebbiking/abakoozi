@@ -67,6 +67,8 @@ body {
 
     .filters {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 2rem;
       padding: 0.6rem;
       background: var(--primary-color);
@@ -78,6 +80,49 @@ body {
       padding: 15px 40px 15px 40px;
       font-weight: 600;
       margin-bottom: 2rem;
+
+      .location-filter {
+        display: flex;
+        justify-content: space-between;
+
+        label {
+          margin-right: 1rem;
+        }
+      }
+
+      .search-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 355px;
+        height: 40px;
+        border-radius: 6px;
+        border: var(--secondary-color);
+        background-color: var(--secondary-color);
+
+        padding: 0px 10px 0px 10px;
+
+        input {
+          font-weight: 700;
+          flex: 1;
+          margin-left: 15px;
+          height: 30px;
+
+          &.search-input {
+            background-color: #fff;
+            outline: none;
+            border: none;
+
+            &:focus {
+              color: #000;
+            }
+
+            &::placeholder {
+              color: #000;
+            }
+          }
+        }
+      }
     }
 
     .main-section {
@@ -117,6 +162,39 @@ body {
           flex: 1;
         }
       }
+    }
+    .pag-ctrl-wrapper {
+      margin-top: 2rem;
+    }
+
+    .pag-ctrl-container {
+      background: #fff;
+
+      height: 3rem;
+
+      bottom: 0;
+
+      width: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: grey;
+    }
+
+    .pag-ctrl-btn,
+    .pag-ctrl-pg-no {
+      cursor: pointer;
+      margin: 0.3rem;
+      font-weight: bold;
+    }
+
+    .pag-ctrl-btn {
+      font-size: 1.2em;
+    }
+
+    .pag-ctrl-current-page {
+      font-weight: bold;
+      font-size: 1.3em;
     }
   }
 }
