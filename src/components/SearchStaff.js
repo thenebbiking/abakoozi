@@ -4,7 +4,6 @@ import { FaSearch } from 'react-icons/fa';
 const SearchStaff = ({ onSearch }) => {
   return (
     <div className='search-container'>
-      {/* <SearchIcon /> */}
       <FaSearch />
       <input
         type='text'

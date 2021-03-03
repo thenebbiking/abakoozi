@@ -36,6 +36,10 @@ const App = () => {
     dispatch(getTretton37Staff());
   }, [dispatch]);
 
+  // useEffect(() => {
+  //   handlePaginate(returnedStaff);
+  // }, [returnedStaff]);
+
   return (
     <div className='container'>
       <div style={{ position: 'sticky', top: 0 }}>
