@@ -15,8 +15,6 @@ const ProfileCard = ({ staff }) => {
     return tempElm.textContent.trim();
   }, [staff.mainText]);
 
-  console.log(description);
-
   const onCardClick = useCallback(() => setShowDesc((x) => !x), []);
   return (
     <div className='card' onClick={onCardClick}>
@@ -53,9 +51,7 @@ const ProfileCard = ({ staff }) => {
 };
 
 ProfileCard.propTypes = {
-  staff: PropTypes.array.isRequired,
-  paginateBy: PropTypes.number,
-  onPageChange: PropTypes.func.isRequired,
+  staff: PropTypes.object.isRequired,
 };
 
 export default ProfileCard;

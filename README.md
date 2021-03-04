@@ -1,23 +1,51 @@
-# Getting Started with Create React App
+# Getting Started with Abakoozi :)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+| Information |     |
+| :---------- | :-: |
 
-## Available Scripts
+Welcome to Abakoozi. A new and improved Tretton37 ninja listing. Designed to be robust and easy to use with features such as pagination. (Yeah you read that right), filtering by ninja office location, and ninja search<br><br>
+
+# Rationale and Design.
+
+Tretton37 requires a new modern and simple ninja listing for all its amazing staff.
+To accomplish this task, I decided to use React as the front end UI library. This decision was made because of the robustness of React in quickly building and bootstrapping front end applications.
+
+Some libraries I opted for include:
+
+- Axios for data fetching. This makes it easy to fetch data from other resources
+- Redux for state management. This allows us to persist state and easily use this state across our components.
+- Docker for a production build and ready instance. This makes portability of our app easy.
+
+# Stories Chosen.
+
+I choose the following stories because I believed they'd show case some of skill sets and understandings of JavasScript quite well.
+
+1.  \_functionality
+
+    - Filter by name and office
+    - Sort by name and office
+
+2.  \_design/accessibility
+
+    - Fancy animations - Just a tad bit on the profile images
+    - Responsive design
+
+3.  \_testing/QA
+    - Works in Chrome, Firefox, Edge
+
+# Installation
+
+## Development
 
 In the project directory, you can run:
 
-### `yarn start`
+### `yarn start or npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `yarn build`
 
@@ -29,42 +57,10 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## Deployment to production
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+In the project directory, you can run:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `yarn start prod or npm start prod`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This spins up a docker container running with a production build of the app

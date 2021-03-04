@@ -4,3 +4,23 @@ export const splitArrBy = (arr = [], by = 2, mapper) =>
 
     return mapper?.(val) ?? val;
   });
+
+export const filterArr = (arr = [], location = '') => {
+  return arr.filter((staff) => staff.office === location);
+};
+
+export const sortArr = (arr = [], sortKey = '', sortOrder = '') => {
+  console.log(sortKey);
+  return arr.concat().sort((a, b) => {
+    if (sortKey === undefined || sortKey === '') {
+      return '';
+    } else {
+      // console.log(sortKey);
+      // console.log(a[sortKey]);
+      console.log(a[sortKey].localeCompare(b[sortKey]));
+
+      return '';
+    }
+    // return a[sortKey] > b[sortKey] ? 1 : a[sortKey] < b[sortKey] ? -1 : 0;
+  });
+};
