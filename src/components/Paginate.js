@@ -35,8 +35,6 @@ const PageControl = React.forwardRef(
         if (paginatedStaff[newPage]) {
           setCurrentPage(newPage);
         }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       [currentPage, paginatedStaff]
     );
