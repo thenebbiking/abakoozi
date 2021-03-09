@@ -35,15 +35,40 @@ const ProfileCard = ({ staff }) => {
         </div>
 
         <div style={{ alignSelf: 'center' }}>
-          <span>
-            <FaLinkedin size={18} color='#80c565' />
-          </span>
-          <span>
-            <FaGithubSquare />
-          </span>
-          <span>
-            <FaTwitterSquare color='#12609B' />
-          </span>
+          {staff.gitHub && (
+            <span>
+              <a
+                href={`https://github.com/${staff.gitHub}`}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <FaGithubSquare />
+              </a>
+            </span>
+          )}
+          {staff.linkedIn && (
+            <span>
+              <a
+                href={`https://linkedin.com${staff.linkedIn}`}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <FaLinkedin size={18} color='#80c565' />
+              </a>
+            </span>
+          )}
+
+          {staff.twitter && staff.twitter !== null && (
+            <span>
+              <a
+                href={`https://twitter.com/${staff.twitter}`}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <FaTwitterSquare color='#12609B' />
+              </a>
+            </span>
+          )}
         </div>
       </div>
     </div>
