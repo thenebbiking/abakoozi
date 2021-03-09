@@ -53,7 +53,7 @@ const ProfileCard = ({ staff }) => {
                 target='_blank'
                 rel='noreferrer'
               >
-                <FaLinkedin size={18} color='#80c565' />
+                <FaLinkedin color='#80c565' />
               </a>
             </span>
           )}

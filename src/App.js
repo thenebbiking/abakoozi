@@ -23,13 +23,11 @@ const App = () => {
 
   const handleSearch = (e) => {
     const name = e.target.value;
-    if (!!name) {
-      setNinjas(ninjas);
+    if (name === '') {
+      setNinjas(allNinjas);
+    } else {
+      setNinjas(ninjas.filter((ninja) => ninja.name.includes(name)));
     }
-    const names = ninjas.map((s) => s.name);
-    return names.includes(name)
-      ? setNinjas(ninjas?.filter((s) => s.name === name))
-      : 'No match was found';
   };
 
   useEffect(() => {
@@ -38,27 +36,35 @@ const App = () => {
 
   return (
     <div className='container'>
-      <div style={{ position: 'sticky', top: 0 }}>
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000,
+          backgroundColor: '#f1f1f1',
+        }}
+      >
         <header>
           <p>_the fellowship of the tretton37</p>
         </header>
-      </div>
-      <div className='filters'>
-        <NinjaFilters
-          data={allNinjas}
-          onFilter={setFilteredNinjas}
-          setFiltered={setFiltered}
-        />
+        <div className='filters'>
+          <NinjaFilters
+            data={allNinjas}
+            onFilter={setFilteredNinjas}
+            setFiltered={setFiltered}
+          />
 
-        <SearchStaff onSearch={handleSearch} />
+          <SearchStaff onSearch={handleSearch} />
+        </div>
       </div>
+
       {loading ? (
         'Loading...'
       ) : (
         <>
           <div className='main-section'>
             {ninjas.map((ninja) => (
-              <ProfileCard staff={ninja} key={Math.random()} />
+              <ProfileCard staff={ninja} key={ninja.email} />
             ))}
           </div>
           {filtered ? (
