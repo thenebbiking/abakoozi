@@ -1,27 +1,27 @@
 import {
-  STAFF_LIST_REQUEST,
-  STAFF_LIST_REQUEST_SUCCESS,
-  STAFF_LIST_REQUEST_FAIL,
-} from '../constants/staffConstants';
+  NINJAS_LIST_REQUEST,
+  NINJAS_LIST_REQUEST_SUCCESS,
+  NINJAS_LIST_REQUEST_FAIL,
+} from '../constants/ninjaConstants';
 
 const initialState = {
-  staff: [],
+  allNinjas: [],
   loading: false,
   paginateItems: 8,
 };
 
-export const staffListReducer = (state = initialState, action) => {
+export const ninjasListReducer = (state = initialState, action) => {
   switch (action.type) {
-    case STAFF_LIST_REQUEST:
+    case NINJAS_LIST_REQUEST:
       return { ...state, loading: true };
-    case STAFF_LIST_REQUEST_SUCCESS:
+    case NINJAS_LIST_REQUEST_SUCCESS:
       return {
         ...state,
         loading: false,
-        staff: action.payload,
+        allNinjas: action.payload,
       };
 
-    case STAFF_LIST_REQUEST_FAIL:
+    case NINJAS_LIST_REQUEST_FAIL:
       return {
         ...state,
         loading: false,

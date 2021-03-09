@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getTretton37Staff } from './actions/staffActions';
+import { getNinjas } from './actions/ninjasActions';
 
 import PageControl from './components/Paginate';
 import ProfileCard from './components/ProfileCard';
-import StaffFilters from './components/StaffFilters';
-// import StaffSortFilters from './components/StaffSortFilters';
+import NinjaFilters from './components/NinjaFilters';
 import SearchStaff from './components/SearchStaff';
 
 import './css/main.scss';
@@ -14,29 +13,27 @@ import './css/main.scss';
 const App = () => {
   const dispatch = useDispatch();
 
-  const ninjas = useSelector((state) => state.staffList.staff);
-  const loading = useSelector((state) => state.staffList.loading);
+  const allNinjas = useSelector((state) => state.ninjasList.allNinjas);
+  const loading = useSelector((state) => state.ninjasList.loading);
 
-  // Current staff
-  const [staff, setStaff] = useState(ninjas);
+  const [ninjas, setNinjas] = useState(allNinjas);
+  const [filteredNinjas, setFilteredNinjas] = useState([]);
 
-  // const [filtered, setFiltered] = useState(false);
-  // const [filteredNinjas, setFilteredNinjas] = useState([]);
+  const [filtered, setFiltered] = useState(false);
 
-  // console.log(filtered);
   const handleSearch = (e) => {
     const name = e.target.value;
     if (!!name) {
-      setStaff(ninjas);
+      setNinjas(ninjas);
     }
     const names = ninjas.map((s) => s.name);
     return names.includes(name)
-      ? setStaff(ninjas?.filter((s) => s.name === name))
+      ? setNinjas(ninjas?.filter((s) => s.name === name))
       : 'No match was found';
   };
 
   useEffect(() => {
-    dispatch(getTretton37Staff());
+    dispatch(getNinjas());
   }, [dispatch]);
 
   return (
@@ -47,16 +44,11 @@ const App = () => {
         </header>
       </div>
       <div className='filters'>
-        <StaffFilters
-          data={ninjas}
-          onChange={setStaff}
-          // setFiltered={setFiltered}
-        />
-        {/* <StaffSortFilters
-          data={filtered ? filteredNinjas : ninjas}
-          onChange={setFilteredNinjas}
+        <NinjaFilters
+          data={allNinjas}
+          onFilter={setFilteredNinjas}
           setFiltered={setFiltered}
-        /> */}
+        />
 
         <SearchStaff onSearch={handleSearch} />
       </div>
@@ -65,22 +57,15 @@ const App = () => {
       ) : (
         <>
           <div className='main-section'>
-            {/* {filtered
-              ? filteredNinjas.map((s) => (
-                  <ProfileCard staff={s} key={Math.random()} />
-                )) 
-              : */}
-            {staff.map((s) => (
-              <ProfileCard staff={s} key={Math.random()} />
+            {ninjas.map((ninja) => (
+              <ProfileCard staff={ninja} key={Math.random()} />
             ))}
-
-            {/* } */}
           </div>
-          <PageControl
-            // data={filtered ? filteredNinjas : ninjas}
-            data={ninjas}
-            onPageChange={setStaff}
-          />
+          {filtered ? (
+            <PageControl data={filteredNinjas} onPageChange={setNinjas} />
+          ) : (
+            <PageControl data={allNinjas} onPageChange={setNinjas} />
+          )}
         </>
       )}
     </div>

@@ -4,7 +4,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { filterArr } from '../helpers/object';
 
 const FILTER_OFFICE_OPTIONS = [
-  'All Staff',
+  'All ninjas',
   'Borlänge',
   'Ljubljana',
   'Lund',
@@ -12,40 +12,38 @@ const FILTER_OFFICE_OPTIONS = [
   'Stockholm',
 ];
 
-const StaffFilters = React.forwardRef(
-  ({ data, onChange /**setFiltered**/ }, ref) => {
+const NinjaFilters = React.forwardRef(
+  ({ data, onFilter, setFiltered }, ref) => {
     const [selectedLocation, setSelectedLocation] = useState('');
     const [filteredStaff, setFilteredStaff] = useState([]);
 
     useEffect(() => {
-      setFilteredStaff(filterArr(data, selectedLocation));
-      // if (filteredStaff.length === 0) {
-      //   setFiltered(false);
-      // } else {
-      //   setFiltered(true);
-      // }
-    }, [data, selectedLocation, onChange]);
+      if (selectedLocation === '' || selectedLocation === 'All ninjas') {
+        setFilteredStaff(data);
+      } else {
+        setFilteredStaff(filterArr(data, selectedLocation));
+      }
+    }, [data, selectedLocation, onFilter]);
 
     const onFilterChange = useCallback(
       ({ target: { value } }) => {
-        if (value === 'All Staff') {
-          // setFiltered(false);
+        if (value === 'All ninjas') {
           setFilteredStaff(data);
-          // setIsFilteredStaff(false);
+          setFiltered(false);
         } else {
           setSelectedLocation(value);
-          // setFiltered(true);
-          // setIsFilteredStaff(true);
+          setFilteredStaff(filterArr(data, selectedLocation));
+          setFiltered(true);
         }
       },
-      [data]
+      [data, setFiltered, selectedLocation]
     );
 
     useEffect(() => {
       if (filteredStaff.length) {
-        onChange(filteredStaff);
+        onFilter(filteredStaff);
       }
-    }, [filteredStaff, onChange]);
+    }, [filteredStaff, onFilter]);
 
     return (
       <div className='location-filter'>
@@ -57,14 +55,14 @@ const StaffFilters = React.forwardRef(
             );
           })}
         </select>
-        <label> {data.length}</label>
+        <label> {filteredStaff?.length}</label>
       </div>
     );
   }
 );
-StaffFilters.propTypes = {
+NinjaFilters.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  onChange: PropTypes.func.isRequired,
+  onFilter: PropTypes.func.isRequired,
 };
 
-export default StaffFilters;
+export default NinjaFilters;

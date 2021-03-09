@@ -131,6 +131,16 @@ body {
         label:last-child {
           margin-left: 1rem;
         }
+
+        select {
+          background-color: #fff;
+          outline: none;
+          border: none;
+          width: 200px;
+          height: 30px;
+          border-radius: 6px;
+          font-family: 'Poppins';
+        }
       }
 
       .search-container {
@@ -149,7 +159,7 @@ body {
         padding: 0px 10px 0px 10px;
 
         input {
-          font-weight: 700;
+          font-weight: 400;
           flex: 1;
           margin-left: 15px;
           height: 30px;
@@ -158,6 +168,7 @@ body {
             background-color: #fff;
             outline: none;
             border: none;
+            font-family: 'Poppins';
 
             &:focus {
               color: #000;

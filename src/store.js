@@ -3,10 +3,10 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 // Reducers
-import { staffListReducer } from './reducers/staffListReducer';
+import { ninjasListReducer } from './reducers/ninjasListReducer';
 
 const reducer = combineReducers({
-  staffList: staffListReducer,
+  ninjasList: ninjasListReducer,
 });
 const initialState = {};
 
